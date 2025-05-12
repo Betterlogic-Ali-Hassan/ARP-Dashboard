@@ -269,7 +269,7 @@ export function Sidebar({ activePage }: { activePage?: string }) {
           />
           <Button
             variant='ghost'
-            className='absolute top-0 right-2 p-0 !bg-transparent'
+            className='absolute top-0 right-2 p-0 !bg-transparent md:hidden'
             onClick={() => setIsMobileMenuOpen(false)}
           >
             <X size={22} />

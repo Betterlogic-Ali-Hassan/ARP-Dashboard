@@ -106,7 +106,7 @@ export function ConfirmDialog({
           <Button
             variant='outline'
             onClick={() => onOpenChange(false)}
-            className='w-full sm:w-auto max-sm:mt-2 '
+            className='w-full sm:w-auto max-sm:mt-3 '
           >
             {cancelLabel}
           </Button>

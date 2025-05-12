@@ -663,7 +663,7 @@ export function DeviceDialog({
               <Button
                 variant='outline'
                 onClick={() => onOpenChange(false)}
-                className='gap-2 max-sm:mt-2'
+                className='gap-2 max-sm:mt-3'
               >
                 <HelpCircle className='h-4 w-4' />
                 Need Help
