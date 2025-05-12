@@ -780,7 +780,7 @@ export default function DevicesPage() {
                     <ChevronDown className='ml-2 h-4 w-4' />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-[calc(100vw-32px)] sm:w-56'>
+                <DropdownMenuContent className='w-[calc(100vw-32px)] sm:w-56 max-sm:ml-4'>
                   <DropdownMenuLabel>Filter Devices</DropdownMenuLabel>
                   <DropdownMenuSeparator />
 
