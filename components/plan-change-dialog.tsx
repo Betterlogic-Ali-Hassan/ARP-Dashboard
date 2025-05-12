@@ -41,8 +41,8 @@ interface PlanChangeDialogProps {
   onOpenChange: (open: boolean) => void;
   currentPlan: PlanType;
   selectedPlan?: PlanType | null;
-  billingPeriod: BillingPeriodType;
-  onComplete: (success: boolean, newPlan: PlanType) => void;
+  billingPeriod?: BillingPeriodType;
+  onComplete?: (success: boolean, newPlan: PlanType) => void;
   isNewSubscription?: boolean;
 }
 
@@ -61,8 +61,9 @@ export function PlanChangeDialog({
   const [confirmationStep, setConfirmationStep] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [billingPeriod, setBillingPeriod] =
-    useState<BillingPeriodType>(initialBillingPeriod);
+  const [billingPeriod, setBillingPeriod] = useState<
+    BillingPeriodType | undefined
+  >(initialBillingPeriod);
   const [paymentMethod, setPaymentMethod] = useState({
     type: "card",
     last4: "4242",
@@ -202,7 +203,7 @@ export function PlanChangeDialog({
 
     // Simulate API call
     setTimeout(() => {
-      onComplete(true, selectedPlan);
+      if (onComplete) onComplete(true, selectedPlan);
       setLoading(false);
     }, 1500);
   };
@@ -519,7 +520,7 @@ export function PlanChangeDialog({
 
               {/* Warning for downgrades */}
               {!isUpgrading && (
-                <Alert variant='warning' className='mt-4'>
+                <Alert className='mt-4'>
                   <AlertTriangle className='h-4 w-4' />
                   <AlertDescription>
                     Your current plan will remain active until the end of your
@@ -600,14 +601,14 @@ export function PlanChangeDialog({
                                 : "Monthly"}
                             </p>
                           </div>
-                          {billingPeriod === "yearly" &&
-                            selectedPlan !== "basic" && (
-                              <Badge className='bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 font-normal ml-1'>
-                                {`${getYearlyDiscountPercentage(
-                                  selectedPlan
-                                )}% savings`}
-                              </Badge>
-                            )}
+
+                          {billingPeriod === "yearly" && (
+                            <Badge className='bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 font-normal ml-1'>
+                              {`${getYearlyDiscountPercentage(
+                                selectedPlan
+                              )}% savings`}
+                            </Badge>
+                          )}
                         </div>
 
                         <div className='pt-2 border-t border-gray-200 dark:border-gray-700'>
@@ -618,6 +619,7 @@ export function PlanChangeDialog({
                                 : "New plan price"}
                             </p>
                           </div>
+
                           {billingPeriod === "yearly" ? (
                             <>
                               <p className='text-xl font-bold'>

@@ -1,6 +1,6 @@
 // Plan utility functions to ensure consistency across the application
 
-export type PlanType = "basic" | "individual" | "team" | "enterprise"
+export type PlanType =  "individual" | "team" | "enterprise" | "basic"
 export type BillingPeriodType = "monthly" | "yearly"
 
 export interface PlanDetails {
@@ -22,7 +22,7 @@ export interface PlanDetails {
   features: string[]
 }
 
-export const PLANS: Record<PlanType, PlanDetails> = {
+export const PLANS = {
   basic: {
     name: "Basic",
     color: {

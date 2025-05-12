@@ -8,6 +8,7 @@ export interface Device {
   type: string
   lastActive: string
   profileId: string
+  status?: string
 }
 
 export interface Profile {
