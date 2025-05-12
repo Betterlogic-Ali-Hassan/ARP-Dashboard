@@ -1600,7 +1600,7 @@ export default function NotificationCenter() {
     <div className='container mx-auto px-4 py-6 max-w-6xl'>
       <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
         <div>
-          <h1 className='text-3xl font-bold tracking-tight'>
+          <h1 className='text-3xl font-bold tracking-tight max-md:ml-[52px]'>
             Notification Center
           </h1>
           <p className='text-muted-foreground mt-1.5'>
@@ -2181,7 +2181,7 @@ export default function NotificationCenter() {
         </div>
         <TabsContent value={activeTab} className='mt-0'>
           {filteredNotifications.length > 0 ? (
-            <div className='max-w-3xl ml-0 pl-4'>
+            <div className='sm:max-w-3xl  max-sm:max-w-[20rem] ml-0 md:pl-4 '>
               <div className='relative'>
                 {/* Timeline line */}
                 <div className='absolute left-6 md:left-[9.5rem] top-0 bottom-0 w-[2px] bg-gray-200 dark:bg-gray-800'></div>
