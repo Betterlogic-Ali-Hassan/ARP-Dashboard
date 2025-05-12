@@ -201,7 +201,7 @@ export function PremiumFeatureDialog({
                 : "hover:border-emerald-200 dark:hover:border-emerald-800"
             }`}
           >
-            <div className='bg-white dark:bg-gray-800 p-4 sm:p-5'>
+            <div className='bg-white dark:bg-gray-800 p-4 sm:p-5 h-full'>
               <div className='flex items-center mb-2'>
                 <Crown className='h-5 w-5 mr-2' style={{ color: "#059669" }} />
                 <h3 className='font-bold text-base sm:text-lg'>
@@ -263,7 +263,7 @@ export function PremiumFeatureDialog({
                 : "hover:border-amber-200 dark:hover:border-amber-800"
             }`}
           >
-            <div className='relative'>
+            <div className='relative h-full'>
               <div className='absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-bl-lg'>
                 POPULAR
               </div>
