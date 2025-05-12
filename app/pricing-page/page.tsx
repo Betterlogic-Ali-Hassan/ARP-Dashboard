@@ -706,7 +706,7 @@ export default function PricingPage() {
                 </Button>
                 <Button
                   variant='outline'
-                  className='border-white text-black hover:bg-white/20'
+                  className='border-white text-white bg-transparent hover:bg-white/20'
                   onClick={() => router.push("#comparison")}
                 >
                   Compare Plans
