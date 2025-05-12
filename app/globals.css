@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 142.1 70% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142.1 76.2% 36.3%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Add smooth theme transition styles to prevent jarring theme changes */
+/* Add this at the end of the file */
+
+.theme-transitioning * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+/* Disable transitions during theme change to prevent visual glitches */
+.theme-transitioning *:not(.preserve-transition) {
+  animation: none !important;
+  transition: background-color 200ms ease-out, border-color 200ms ease-out,
+    color 200ms ease-out !important;
+}
+
+/* Enhanced dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+/* Card and panel enhancements for dark mode */
+.dark .card,
+.dark .panel {
+  @apply bg-card border-border shadow-md shadow-black/10;
+}
+
+/* Table styles for dark mode */
+.dark table {
+  @apply bg-card;
+}
+
+.dark tr:hover {
+  @apply bg-white/5;
+}
+
+.dark thead {
+  @apply bg-muted;
+}
+
+.dark tbody tr {
+  @apply border-muted;
+}
+
+/* Form input enhancements for dark mode */
+.dark input,
+.dark textarea,
+.dark select {
+  @apply bg-input border-border text-foreground placeholder:text-muted-foreground;
+}
+
+/* Button enhancements for dark mode */
+.dark button.btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+/* Sidebar enhancements for dark mode */
+.dark .sidebar {
+  @apply bg-background border-border;
+}
+
+.dark .sidebar-item.active {
+  @apply bg-primary/20 text-primary;
+}
+
+.dark .sidebar-item:hover:not(.active) {
+  @apply bg-muted/50;
+}
+
+/* Chat panel enhancements */
+.dark .chat-panel {
+  @apply bg-card border-border shadow-lg shadow-black/20;
+}
+
+.dark .chat-header,
+.dark .chat-footer {
+  @apply bg-card border-border;
+}
+
+.dark .chat-message-user {
+  @apply bg-primary/20 text-foreground;
+}
+
+.dark .chat-message-system {
+  @apply bg-muted text-foreground;
+}
+
+/* Dialog enhancements */
+.dark .dialog-content {
+  @apply bg-card border-border shadow-xl shadow-black/30;
+}
+
+/* Badge enhancements */
+.dark .badge-outline {
+  @apply border-border text-foreground;
+}
+
+/* Dropdown menu enhancements */
+.dark .dropdown-content {
+  @apply bg-popover border-border shadow-lg shadow-black/20;
+}
+
+/* Tooltip enhancements */
+.dark .tooltip {
+  @apply bg-popover text-popover-foreground;
+}
+
+/* Progress bar enhancements */
+.dark .progress-bg {
+  @apply bg-muted;
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  @apply bg-muted/30;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
