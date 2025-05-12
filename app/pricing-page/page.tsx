@@ -68,16 +68,11 @@ export default function PricingPage() {
 
   return (
     <div className='flex min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900'>
-      {/* Sidebar */}
-      <div>
-        <Sidebar activePage='pricing' />
-      </div>
-
       {/* Main content */}
       <main className='flex-1 p-4 sm:p-6 lg:p-8'>
         <div className='mx-auto max-w-6xl'>
           <div className='mb-8'>
-            <h1 className='text-3xl font-bold tracking-tight mb-2'>
+            <h1 className='text-3xl font-bold tracking-tight mb-2 max-md:ml-[52px]'>
               Pricing Plans
             </h1>
             <div className='flex items-center justify-between flex-wrap gap-4'>

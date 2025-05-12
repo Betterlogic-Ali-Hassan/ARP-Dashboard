@@ -528,16 +528,13 @@ export default function SettingsProfilesPage() {
 
   return (
     <div className='flex min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900'>
-      {/* Sidebar */}
-      {/* <Sidebar activePage='settings-profiles' /> */}
-
       {/* Main content */}
       <main className='flex-1 p-4 sm:p-6 lg:p-8'>
         <div className='mx-auto max-w-6xl'>
           <div className='mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
             <div>
               <div className='flex items-center'>
-                <h1 className='text-3xl font-bold tracking-tight mb-2'>
+                <h1 className='text-3xl font-bold tracking-tight mb-2 max-md:ml-[52px] '>
                   Settings Profiles
                 </h1>
                 <a

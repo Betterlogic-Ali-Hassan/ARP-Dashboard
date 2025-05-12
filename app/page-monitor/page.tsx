@@ -190,7 +190,7 @@ export default function PageMonitor() {
     <div className='flex min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900'>
       <div className='flex-1 p-4 sm:p-6 lg:p-8'>
         <div className='mx-auto max-w-[56rem]'>
-          <h1 className='mb-6 text-3xl font-bold tracking-tight'>
+          <h1 className='mb-6 text-3xl font-bold tracking-tight max-md:ml-[52px]'>
             Page Monitor
           </h1>
 

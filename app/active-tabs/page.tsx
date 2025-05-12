@@ -365,7 +365,7 @@ export default function ActiveTabsPage() {
         <div className='mx-auto max-w-6xl'>
           <div className='mb-4 sm:mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4'>
             <div>
-              <h1 className='text-2xl sm:text-3xl font-bold tracking-tight mb-1 sm:mb-2'>
+              <h1 className='text-2xl sm:text-3xl font-bold tracking-tight mb-1 sm:mb-2 max-md:ml-[52px]'>
                 Active Tabs
               </h1>
               <p className='text-gray-500 dark:text-gray-400 max-w-2xl text-sm'>

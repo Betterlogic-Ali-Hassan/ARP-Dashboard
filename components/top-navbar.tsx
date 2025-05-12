@@ -120,12 +120,12 @@ export function TopNavbar() {
               </svg>
             </div>
             <div className='flex items-center space-x-2'>
-              <span className='hidden md:inline-block font-bold text-lg'>
+              <span className='hidden md:inline-block font-bold text-lg '>
                 Auto Refresh Plus
               </span>
               <Badge
                 variant='outline'
-                className='bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+                className='bg-emerald-50 max-[410px]:hidden text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
               >
                 Premium
               </Badge>

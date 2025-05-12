@@ -575,15 +575,7 @@ export default function DevicesPage() {
           {/* Mobile header with menu button */}
           {isMobile && (
             <div className='flex items-center mb-4'>
-              <Button
-                variant='ghost'
-                size='icon'
-                className='mr-2 -ml-2'
-                onClick={() => setSidebarOpen(true)}
-              >
-                <Menu className='h-5 w-5' />
-              </Button>
-              <h1 className='text-xl font-bold'>Devices</h1>
+              <h1 className='text-xl font-bold ml-[54px]'>Devices</h1>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
