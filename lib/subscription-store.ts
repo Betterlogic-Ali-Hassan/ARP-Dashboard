@@ -3,6 +3,7 @@
 import { create } from "zustand"
 import { useEffect, useState } from "react"
 import { useDeviceStore } from "./store"
+import { subscribeWithSelector } from "zustand/middleware"
 
 type SubscriptionStatus = "active" | "canceled" | "scheduled_downgrade" | "past_due"
 type PlanType = "basic" | "individual" | "team" | "enterprise"
@@ -79,12 +80,9 @@ export function useDeviceCountSync() {
 
   useEffect(() => {
     // Subscribe to changes in the device store
-    const unsubscribe = useDeviceStore.subscribe(
-      (state) => state.devices.length,
-      (count) => {
-        setDeviceCount(count)
-      },
-    )
+    const unsubscribe = useDeviceStore.subscribe((state) => {
+      setDeviceCount(state.devices.length)
+    })
 
     // Cleanup subscription on unmount
     return () => {

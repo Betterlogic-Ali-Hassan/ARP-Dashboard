@@ -7,7 +7,7 @@ export interface Device {
   name: string
   type: string
   lastActive: string
-  profileId: string
+  profileId: string|null | undefined
   status?: string
 }
 
