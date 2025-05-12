@@ -812,7 +812,7 @@ export default function NotificationSettingsPage() {
                         placeholder='Enter your email address'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className='max-w-md'
+                        className='sm:max-w-md'
                       />
                       <Button onClick={handleVerifyEmail}>Verify</Button>
                     </div>

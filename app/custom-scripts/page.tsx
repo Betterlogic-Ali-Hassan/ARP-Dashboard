@@ -895,7 +895,7 @@ export default function CustomScriptsPage() {
                             setScriptUrlMode(value)
                           }
                         >
-                          <SelectTrigger className='w-[180px]'>
+                          <SelectTrigger className='w-[180px] h-[44px]'>
                             <SelectValue placeholder='URL Mode' />
                           </SelectTrigger>
                           <SelectContent>

@@ -257,7 +257,7 @@ export default function PageMonitor() {
                     onKeyDown={handleKeyDown}
                     onPaste={handlePaste}
                     disabled={!defaultTargetText}
-                    className='flex-grow min-w-[120px] bg-transparent border-none focus:outline-none focus:ring-0 p-0 text-sm'
+                    className='flex-grow min-w-[120px] bg-transparent dark:bg-transparent border-none focus:outline-none focus:ring-0 p-0 text-sm'
                     placeholder={
                       keywords.length === 0
                         ? "Type and press Enter to add keywords"
