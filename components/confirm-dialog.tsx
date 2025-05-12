@@ -102,11 +102,11 @@ export function ConfirmDialog({
           </div>
         )}
 
-        <DialogFooter className='flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 max-sm:gap-2 gap-2 mt-2'>
+        <DialogFooter className='flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2  gap-2 mt-2'>
           <Button
             variant='outline'
             onClick={() => onOpenChange(false)}
-            className='w-full sm:w-auto'
+            className='w-full sm:w-auto max-sm:mt-2 '
           >
             {cancelLabel}
           </Button>
