@@ -1686,7 +1686,7 @@ export default function NotificationCenter() {
                       <ChevronDown className='h-4 w-4 ml-2 opacity-50' />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className='w-56'>
+                  <DropdownMenuContent className='md:w-56 '>
                     <DropdownMenuLabel>Filter by Profile</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {profiles.map((profile) => (
@@ -1799,7 +1799,7 @@ export default function NotificationCenter() {
             <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
               {/* Tabs with improved styling */}
               <div className='w-full md:w-auto overflow-x-auto pb-1 md:pb-0'>
-                <TabsList className='h-auto p-1 bg-muted/60'>
+                <TabsList className='h-auto flex-wrap max-sm:items-start p-1 bg-muted/60'>
                   <TabsTrigger value='all' className='h-9 px-4 rounded-md'>
                     <span className='flex items-center gap-1.5'>
                       <Bell className='h-4 w-4' />
@@ -2372,7 +2372,7 @@ export default function NotificationCenter() {
                                   </div>
 
                                   {/* URL and actions */}
-                                  <div className='flex items-start justify-between mb-3'>
+                                  <div className='flex items-start justify-between mb-3 flex-wrap'>
                                     <div className='flex items-center space-x-2 max-w-[70%]'>
                                       <Globe
                                         className={cn(
