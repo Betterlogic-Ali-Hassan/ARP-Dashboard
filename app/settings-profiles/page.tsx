@@ -529,7 +529,7 @@ export default function SettingsProfilesPage() {
   return (
     <div className='flex min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900'>
       {/* Sidebar */}
-      <Sidebar activePage='settings-profiles' />
+      {/* <Sidebar activePage='settings-profiles' /> */}
 
       {/* Main content */}
       <main className='flex-1 p-4 sm:p-6 lg:p-8'>
