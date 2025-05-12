@@ -729,7 +729,7 @@ export default function SettingsPage() {
         {accounts.map((account) => (
           <div
             key={account.id}
-            className='flex items-center justify-between p-4 max-sm:flex-col gap-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50'
+            className='flex items-center justify-between p-4 max-sm:flex-col max-sm:items-start gap-4 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50'
           >
             <div className='flex items-center space-x-4'>
               <div className='h-10 w-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center'>
@@ -1511,8 +1511,8 @@ export default function SettingsPage() {
 
           {/* Two-Factor Authentication Section */}
           <Card className='mb-6'>
-            <CardHeader className='flex flex-row items-center justify-between pb-2'>
-              <div className='flex items-center space-x-4'>
+            <CardHeader className='flex flex-row items-center justify-between flex-wrap gap-3 pb-2'>
+              <div className='flex items-center space-x-4 '>
                 <div className='h-10 w-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center'>
                   <Shield className='h-5 w-5 text-emerald-600 dark:text-emerald-400' />
                 </div>

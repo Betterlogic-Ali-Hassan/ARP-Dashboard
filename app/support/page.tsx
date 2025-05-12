@@ -146,11 +146,11 @@ export default function SupportPage() {
         >
           <div className='mx-auto max-w-4xl'>
             <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-6'>
-              <div>
-                <h1 className='text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-0.5 sm:mb-1  max-md:ml-[52px]'>
+              <div className='max-md:ml-[52px]'>
+                <h1 className='text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-0.5 sm:mb-1  '>
                   Support
                 </h1>
-                <p className='text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-400 max-md:mt-1.5'>
+                <p className='text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-400 '>
                   Get help with your account and devices
                 </p>
               </div>
