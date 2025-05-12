@@ -502,26 +502,11 @@ export default function SubscriptionPage() {
 
   return (
     <div className='flex min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900'>
-      {/* Sidebar */}
-      <Sidebar activePage='account' />
-
       {/* Main content */}
       <main className='flex-1 p-4 md:p-6 lg:p-8'>
-        {/* Page-specific notification (for demo purposes) */}
-        <div className='mb-6'>
-          <SubscriptionNotification
-            status={subscriptionStatus === "active" ? null : subscriptionStatus}
-            currentPlan={currentPlan}
-            targetPlan={targetPlan || undefined}
-            expiryDate={expiryDate}
-            onReactivate={handleReactivateSubscription}
-            className='rounded-lg shadow-sm'
-          />
-        </div>
-
         <div className='mx-auto max-w-4xl'>
           <div className='mb-6'>
-            <h1 className='text-2xl md:text-3xl font-bold tracking-tight mb-2'>
+            <h1 className='text-2xl md:text-3xl font-bold tracking-tight mb-2 max-md:ml-[52px]'>
               Subscription
             </h1>
             <p className='text-gray-500 dark:text-gray-400'>
