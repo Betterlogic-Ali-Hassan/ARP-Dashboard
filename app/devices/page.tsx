@@ -594,12 +594,6 @@ export default function DevicesPage() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <div className='ml-auto'>
-                <Button onClick={handleAddDevice} size='sm' className='h-9'>
-                  <Plus className='mr-2 h-4 w-4' />
-                  Add
-                </Button>
-              </div>
             </div>
           )}
           <div className='mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
