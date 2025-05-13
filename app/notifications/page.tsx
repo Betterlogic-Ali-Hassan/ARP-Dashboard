@@ -74,6 +74,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 // Predefined sound options
 const PREDEFINED_SOUNDS = [
@@ -1142,13 +1143,15 @@ const ExportDialog = ({
       </div>
 
       <DialogFooter>
-        <Button
-          variant='outline'
-          onClick={() => handleDialogOpen(false)}
-          disabled={isExporting}
-        >
-          Cancel
-        </Button>
+        <DialogClose asChild>
+          <Button
+            variant='outline'
+            onClick={() => handleDialogOpen(false)}
+            disabled={isExporting}
+          >
+            Cancel
+          </Button>
+        </DialogClose>
         <Button
           onClick={exportNotifications}
           disabled={isExporting || filteredNotifications.length === 0}

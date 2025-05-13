@@ -263,12 +263,12 @@ export function PremiumFeatureDialog({
                 : "hover:border-amber-200 dark:hover:border-amber-800"
             }`}
           >
-            <div className='relative h-full'>
+            <div className='relative '>
               <div className='absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-bl-lg'>
                 POPULAR
               </div>
             </div>
-            <div className='bg-gradient-to-b from-amber-50 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-5'>
+            <div className='bg-gradient-to-b from-amber-50 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-5 h-full'>
               <div className='flex items-center mb-2'>
                 <Users className='h-5 w-5 mr-2' style={{ color: "#F59E0B" }} />
                 <h3 className='font-bold text-base sm:text-lg'>
@@ -700,7 +700,7 @@ export function PremiumFeatureDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='w-[calc(100%-2rem)] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] p-0 overflow-x-hidden max-sm:max-h-[600px] max-sm:overflow-y-auto'>
+      <DialogContent className='w-[calc(100%-2rem)] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] max-md:max-h-[600px] max-md:overflow-y-auto p-0 overflow-hidden'>
         {currentStep === "plan-selection" && (
           <div className='bg-gradient-to-b from-amber-50 to-amber-100 dark:from-amber-950/40 dark:to-amber-900/20 p-4 sm:p-6 text-center'>
             <div className='mx-auto bg-amber-200 dark:bg-amber-700 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center mb-3 sm:mb-4'>
@@ -719,7 +719,7 @@ export function PremiumFeatureDialog({
           </div>
         )}
 
-        <div className='p-4 sm:p-6 sm:overflow-y-auto sm:max-h-[750px] relative'>
+        <div className='p-4 sm:p-6 overflow-y-auto md:max-h-[750px] relative'>
           {currentStep === "plan-selection"
             ? renderPlanSelection()
             : currentStep === "email-collection"
