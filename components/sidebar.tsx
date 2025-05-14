@@ -254,7 +254,7 @@ export function Sidebar({ activePage }: { activePage?: string }) {
           {/* Upgrade button */}
           <div className='p-4 border-t border-gray-200 dark:border-gray-800'>
             <Button
-              className='w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600'
+              className='w-full '
               onClick={() => setIsPremiumDialogOpen(true)}
             >
               Upgrade Plan

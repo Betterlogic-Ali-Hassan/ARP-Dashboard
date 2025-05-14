@@ -699,7 +699,7 @@ export default function DevicesPage() {
                         ? "bg-red-500"
                         : usagePercentage >= 70
                         ? "bg-amber-500"
-                        : "bg-emerald-500"
+                        : "bg-btn"
                     }`}
                   >
                     {devicesInUse} of {subscription.deviceLimit} devices used

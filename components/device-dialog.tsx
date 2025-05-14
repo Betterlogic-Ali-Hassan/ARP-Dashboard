@@ -430,10 +430,7 @@ export function DeviceDialog({
                 </div>
 
                 <div className='flex justify-end'>
-                  <Button
-                    onClick={goToNextTab}
-                    className='bg-emerald-500 hover:bg-emerald-600'
-                  >
+                  <Button onClick={goToNextTab}>
                     Continue to Information
                     <ChevronRight className='ml-2 h-4 w-4' />
                   </Button>
@@ -520,11 +517,7 @@ export function DeviceDialog({
                   <Button variant='outline' onClick={goToPreviousTab}>
                     Back to General
                   </Button>
-                  <Button
-                    onClick={handleSave}
-                    disabled={!isFormValid}
-                    className='bg-emerald-500 hover:bg-emerald-600'
-                  >
+                  <Button onClick={handleSave} disabled={!isFormValid}>
                     <Check className='h-4 w-4 mr-2' />
                     Save Changes
                   </Button>

@@ -964,9 +964,7 @@ export default function NotificationSettingsPage() {
                 </div>
                 <div className='flex items-center gap-2'>
                   <CardTitle className='text-xl'>Webhooks</CardTitle>
-                  <Badge className='bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 border-0'>
-                    New
-                  </Badge>
+                  <Badge>New</Badge>
                 </div>
               </div>
               <CardDescription>
@@ -1052,7 +1050,6 @@ export default function NotificationSettingsPage() {
                               onCheckedChange={() =>
                                 handleToggleWebhook(webhook.id)
                               }
-                              className='data-[state=checked]:bg-green-500'
                             />
                           </div>
 

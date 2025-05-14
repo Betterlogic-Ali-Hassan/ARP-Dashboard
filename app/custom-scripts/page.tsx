@@ -611,9 +611,7 @@ export default function CustomScriptsPage() {
                   </div>
                   <div className='flex items-center gap-2'>
                     <CardTitle className='text-xl'>Script List</CardTitle>
-                    <Badge className='bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400 border-0'>
-                      {scripts.length}
-                    </Badge>
+                    <Badge className='rounded-full'>{scripts.length}</Badge>
                   </div>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -704,7 +702,7 @@ export default function CustomScriptsPage() {
                           </span>
                           <Badge
                             variant={script.enabled ? "default" : "outline"}
-                            className='text-xs border-0'
+                            className='text-xs '
                           >
                             {script.enabled ? "Enabled" : "Disabled"}
                           </Badge>
@@ -735,7 +733,6 @@ export default function CustomScriptsPage() {
                             onCheckedChange={() =>
                               handleToggleScript(script.id)
                             }
-                            className='data-[state=checked]:bg-green-500'
                           />
                         </div>
 

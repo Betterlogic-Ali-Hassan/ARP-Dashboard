@@ -562,14 +562,14 @@ export default function SynchronizingPage() {
                   <TabsList className='grid w-full grid-cols-2 mb-8'>
                     <TabsTrigger
                       value='primary'
-                      className='data-[state=active]:bg-primary data-[state=active]:text-primary-foreground'
+                      className='data-[state=active]:bg-btn data-[state=active]:text-text'
                     >
                       <Server className='mr-2 h-4 w-4' />
                       Primary Device
                     </TabsTrigger>
                     <TabsTrigger
                       value='secondary'
-                      className='data-[state=active]:bg-primary data-[state=active]:text-primary-foreground'
+                      className='data-[state=active]:bg-btn data-[state=active]:text-text'
                     >
                       <Laptop className='mr-2 h-4 w-4' />
                       Secondary Device

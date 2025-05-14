@@ -128,12 +128,7 @@ export function LanguageSelectorModal({
           <Button variant='outline' onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button
-            className='bg-emerald-600 hover:bg-emerald-700 text-white'
-            onClick={handleApply}
-          >
-            Apply
-          </Button>
+          <Button onClick={handleApply}>Apply</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

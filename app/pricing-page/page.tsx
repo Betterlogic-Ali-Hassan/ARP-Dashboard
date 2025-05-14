@@ -680,7 +680,7 @@ export default function PricingPage() {
           </div>
 
           {/* CTA Section */}
-          <div className='bg-gradient-to-r from-emerald-500 to-teal-600 dark:from-emerald-700 dark:to-teal-800 rounded-xl p-8 text-white'>
+          <div className='bg-gradient-to-r from-emerald-500 to-teal-500 dark:from-emerald-700 dark:to-teal-800 rounded-xl p-8 text-white'>
             <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-6'>
               <div>
                 <h2 className='text-2xl font-bold mb-2'>

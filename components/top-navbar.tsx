@@ -138,7 +138,7 @@ export function TopNavbar() {
               <Button
                 variant='default'
                 size='default'
-                className='bg-primary hover:bg-primary/90 text-primary-foreground border-0 h-9 px-3 max-w-[220px] text-left justify-between overflow-hidden transition-all duration-200 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none'
+                className='bg-btn text-text hover:bg-primary/90  border-0 h-9 px-3 max-w-[220px] hover:opacity-80 text-left justify-between overflow-hidden transition-all duration-200 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none'
               >
                 <div className='flex items-center gap-2'>
                   <div className='h-5 w-5 rounded-full bg-white/20 flex items-center justify-center'>
