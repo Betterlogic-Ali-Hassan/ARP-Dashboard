@@ -716,11 +716,11 @@ export default function PricingPage() {
       <PlanChangeDialog
         open={subscriptionDialogOpen}
         onOpenChange={setSubscriptionDialogOpen}
-        currentPlan='basic' // Default to basic for new users
+        currentPlan='basic'
         selectedPlan={(selectedPlan as PlanType) || null}
         billingPeriod={billingPeriod as BillingPeriodType}
         onComplete={handleSubscriptionComplete}
-        isNewSubscription={true} // Flag to indicate this is a new subscription, not a plan change
+        isNewSubscription={true}
       />
     </div>
   );
