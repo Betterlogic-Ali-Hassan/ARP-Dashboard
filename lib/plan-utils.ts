@@ -1,6 +1,7 @@
 // Plan utility functions to ensure consistency across the application
 
-export type PlanType =  "individual" | "team" | "enterprise" | "basic"
+
+export type PlanType =  "basic" | "individual" | "team" | "enterprise"
 export type BillingPeriodType = "monthly" | "yearly"
 
 export interface PlanDetails {

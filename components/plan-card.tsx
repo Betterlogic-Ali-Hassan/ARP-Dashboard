@@ -103,19 +103,6 @@ export function PlanCard({
     }
   };
 
-  // Generate downgrade button classes based on the previous plan
-  const getDowngradeButtonClasses = () => {
-    if (!previousPlanDetails)
-      return "border-gray-300 text-gray-400 cursor-not-allowed";
-
-    // Extract color name from the primary color class (e.g., "bg-amber-500" -> "amber")
-    const colorName = previousPlanDetails.color.primary
-      .split("bg-")[1]
-      .split("-")[0];
-
-    return `border-${colorName}-600 text-${colorName}-600 hover:bg-${colorName}-50 hover:text-${colorName}-700 dark:border-${colorName}-500 dark:text-${colorName}-500 dark:hover:bg-${colorName}-950 dark:hover:text-${colorName}-400`;
-  };
-
   // Create dynamic hover styles for the current plan
   const extractColorInfo = (colorClass: string) => {
     if (!colorClass.includes("bg-")) return { name: "gray", shade: "600" };

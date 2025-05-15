@@ -1509,14 +1509,10 @@ export default function NotificationCenter() {
     }
   };
 
-  // Toggle sound
-  const toggleSound = () => {
-    setSoundEnabled(!soundEnabled);
-  };
-
   // Change refresh interval
   const handleRefreshIntervalChange = (value: string) => {
     setRefreshInterval(Number.parseInt(value));
+    setCountdown(Number.parseInt(value));
   };
 
   // Handle notification click to mark as read
@@ -1970,16 +1966,15 @@ export default function NotificationCenter() {
 
                         <div className='flex items-center gap-2'>
                           <div className='relative'>
-                            <Select>
+                            <Select
+                              value={String(refreshInterval)}
+                              onValueChange={(value) =>
+                                handleRefreshIntervalChange(value)
+                              }
+                            >
                               <SelectTrigger
                                 className='bg-transparent text-xs outline-none appearance-none pr-5 py-0 h-4 border-none cursor-pointer'
                                 aria-label='Refresh interval'
-                                value={refreshInterval}
-                                onChange={(e) =>
-                                  handleRefreshIntervalChange(
-                                    (e.target as HTMLSelectElement).value
-                                  )
-                                }
                               >
                                 <SelectValue placeholder='30s' />
                               </SelectTrigger>
