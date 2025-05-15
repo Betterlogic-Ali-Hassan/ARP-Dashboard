@@ -83,6 +83,7 @@ const sampleDevices: Device[] = [
     type: "desktop",
     lastActive: "2023-06-01T10:15:00Z",
     profileId: "profile-1",
+    status: 'active'
   },
   {
     id: "device-2",
@@ -90,6 +91,7 @@ const sampleDevices: Device[] = [
     type: "laptop",
     lastActive: "2023-06-02T14:30:00Z",
     profileId: "profile-2",
+    status: 'active'
   },
   {
     id: "device-3",
@@ -97,6 +99,7 @@ const sampleDevices: Device[] = [
     type: "tablet",
     lastActive: "2023-06-03T09:45:00Z",
     profileId: "profile-3",
+    status: 'active'
   },
   {
     id: "device-4",
@@ -104,6 +107,7 @@ const sampleDevices: Device[] = [
     type: "mobile",
     lastActive: "2023-06-04T16:20:00Z",
     profileId: "profile-4",
+    status: 'active'
   },
   {
     id: "device-5",
@@ -111,6 +115,7 @@ const sampleDevices: Device[] = [
     type: "mobile",
     lastActive: "2023-06-05T11:10:00Z",
     profileId: "profile-5",
+    status: 'active'
   },
   {
     id: "device-6",
@@ -118,6 +123,7 @@ const sampleDevices: Device[] = [
     type: "desktop",
     lastActive: "2023-06-06T08:30:00Z",
     profileId: "profile-2",
+    status: 'active'
   },
 ]
 

@@ -158,13 +158,13 @@ export function PlanChangeDialog({
     const planOrder = { basic: 0, individual: 1, team: 2, enterprise: 3 };
     return planOrder[plan] < planOrder[currentPlan];
   };
-
+  console.log(activeDevices);
   // Calculate if device limit is exceeded for downgrades - moved after isUpgrade is defined
   const isDeviceLimitExceeded =
     selectedPlan &&
     selectedPlan !== null &&
     !isUpgrade(selectedPlan) &&
-    activeDevices < (selectedPlan ? PLANS[selectedPlan].deviceLimit : 0);
+    activeDevices > (selectedPlan ? PLANS[selectedPlan].deviceLimit : 0);
 
   const handleSelectPlan = (plan: PlanType) => {
     if (plan === currentPlan) return;
@@ -532,7 +532,7 @@ export function PlanChangeDialog({
 
               {/* Device count warning for downgrades */}
               {!isUpgrading &&
-                activeDevices < PLANS[selectedPlan].deviceLimit && (
+                activeDevices > PLANS[selectedPlan].deviceLimit && (
                   <div className='mt-4 rounded-md border border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/20 p-4'>
                     <div className='flex items-start'>
                       <AlertTriangle className='h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5 mr-3' />
