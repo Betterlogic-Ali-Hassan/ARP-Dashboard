@@ -1977,7 +1977,7 @@ export default function SettingsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className=' p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-gray-900/50 shadow-sm'>
+              <div className='max-w-[40rem] mt-2 p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-gray-900/50 shadow-sm'>
                 <ThemeSelector />
               </div>
             </CardContent>
