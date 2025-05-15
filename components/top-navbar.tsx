@@ -142,13 +142,13 @@ export function TopNavbar() {
               >
                 <div className='flex items-center gap-2'>
                   <div className='h-5 w-5 rounded-full bg-white/20 flex items-center justify-center'>
-                    <Settings className='h-3 w-3 text-white' />
+                    <Settings className='h-3 w-3 text-text' />
                   </div>
                   <div className='flex flex-col'>
                     <span className='truncate font-medium leading-tight'>
                       {activeProfile ? activeProfile.name : "Select Profile"}
                     </span>
-                    <span className='text-[10px] text-white/80 leading-tight'>
+                    <span className='text-[10px] text-text leading-tight'>
                       5 Devices
                     </span>
                   </div>

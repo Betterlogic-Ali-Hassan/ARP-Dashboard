@@ -571,7 +571,7 @@ export default function SettingsProfilesPage() {
               </p>
             </div>
             <Button
-              className='bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-emerald-600 dark:hover:bg-emerald-700 whitespace-nowrap w-full sm:w-auto'
+              className=' whitespace-nowrap w-full sm:w-auto'
               onClick={handleCreateProfile}
             >
               <Plus className='mr-2 h-4 w-4' />

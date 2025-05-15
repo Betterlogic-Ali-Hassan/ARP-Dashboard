@@ -481,11 +481,7 @@ export function ProfileEditorDialog({
               <Button variant='outline' onClick={goToPreviousTab}>
                 Back to General
               </Button>
-              <Button
-                onClick={handleSave}
-                disabled={!name.trim()}
-                className={`bg-${themeColor}-500 hover:bg-${themeColor}-600`}
-              >
+              <Button onClick={handleSave} disabled={!name.trim()}>
                 {isEditing ? "Save Changes" : "Create Profile"}
               </Button>
             </div>

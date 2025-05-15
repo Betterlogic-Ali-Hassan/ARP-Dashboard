@@ -1092,9 +1092,9 @@ export default function CustomScriptsPage() {
                         }
                         className={cn(
                           "transition-all",
-                          !scriptName || !scriptTargetUrl || !scriptCode
-                            ? "opacity-70"
-                            : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
+                          !scriptName ||
+                            !scriptTargetUrl ||
+                            (!scriptCode && "opacity-70")
                         )}
                       >
                         {editingScript !== null ? "Update" : "Add"} Script

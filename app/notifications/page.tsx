@@ -5,6 +5,13 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 import type React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
@@ -1600,943 +1607,959 @@ export default function NotificationCenter() {
   };
 
   return (
-    <div className='container mx-auto px-4 py-6 max-w-6xl'>
-      <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
-        <div>
-          <h1 className='text-3xl font-bold tracking-tight max-md:ml-[52px]'>
-            Notification Center
-          </h1>
-          <p className='text-muted-foreground mt-1.5'>
-            View and manage all your recent notifications triggered by keyword
-            activity across your devices.
-          </p>
-        </div>
-      </div>
-
-      {/* Advanced filtering UI */}
-      <div className='mb-6'>
-        <div className='flex flex-col md:flex-row gap-3 mb-3'>
-          <div className='relative flex-1'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground' />
-            <Input
-              placeholder='Search notifications by URL, keyword, device or profile...'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className='pl-9'
-            />
+    <>
+      <div className='container mx-auto px-4 py-6 max-w-6xl'>
+        <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-6'>
+          <div>
+            <h1 className='text-3xl font-bold tracking-tight max-md:ml-[52px]'>
+              Notification Center
+            </h1>
+            <p className='text-muted-foreground mt-1.5'>
+              View and manage all your recent notifications triggered by keyword
+              activity across your devices.
+            </p>
           </div>
+        </div>
 
-          <div className='flex gap-2'>
-            <Button
-              variant='outline'
-              className={cn(
-                "flex items-center gap-2",
-                showFilters && "bg-muted"
-              )}
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <SlidersHorizontal className='h-4 w-4' />
-              Filters
-              {hasActiveFilters && (
-                <Badge
-                  variant='secondary'
-                  className='ml-1 px-1.5 py-0 h-5 min-w-5 flex items-center justify-center'
-                >
-                  {selectedProfiles.length +
-                    selectedDevices.length +
-                    (readFilter !== "all" ? 1 : 0) +
-                    (searchQuery ? 1 : 0)}
-                </Badge>
-              )}
-            </Button>
+        {/* Advanced filtering UI */}
+        <div className='mb-6'>
+          <div className='flex flex-col md:flex-row gap-3 mb-3'>
+            <div className='relative flex-1'>
+              <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+              <Input
+                placeholder='Search notifications by URL, keyword, device or profile...'
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className='pl-9'
+              />
+            </div>
 
-            {hasActiveFilters && (
+            <div className='flex gap-2'>
               <Button
-                variant='ghost'
-                size='sm'
-                onClick={resetFilters}
-                className='text-xs'
+                variant='outline'
+                className={cn(
+                  "flex items-center gap-2",
+                  showFilters && "bg-muted"
+                )}
+                onClick={() => setShowFilters(!showFilters)}
               >
-                Reset
+                <SlidersHorizontal className='h-4 w-4' />
+                Filters
+                {hasActiveFilters && (
+                  <Badge
+                    variant='secondary'
+                    className='ml-1 px-1.5 py-0 h-5 min-w-5 flex items-center justify-center'
+                  >
+                    {selectedProfiles.length +
+                      selectedDevices.length +
+                      (readFilter !== "all" ? 1 : 0) +
+                      (searchQuery ? 1 : 0)}
+                  </Badge>
+                )}
               </Button>
-            )}
-          </div>
-        </div>
 
-        {showFilters && (
-          <div className='bg-muted/40 p-4 rounded-md mb-4 border'>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-              {/* Profile filter */}
-              <div>
-                <h3 className='text-sm font-medium mb-2 flex items-center'>
-                  <Settings className='h-4 w-4 mr-2 text-muted-foreground' />
-                  Settings Profiles
-                </h3>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant='outline'
-                      className='w-full justify-between'
-                    >
-                      <span className='truncate'>
-                        {selectedProfiles.length === 0
-                          ? "All Profiles"
-                          : selectedProfiles.length === 1
-                          ? profiles.find((p) => p.id === selectedProfiles[0])
-                              ?.name || "1 Profile"
-                          : `${selectedProfiles.length} Profiles`}
-                      </span>
-                      <ChevronDown className='h-4 w-4 ml-2 opacity-50' />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className='md:w-56 '>
-                    <DropdownMenuLabel>Filter by Profile</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {profiles.map((profile) => (
-                      <DropdownMenuCheckboxItem
-                        key={profile.id}
-                        checked={selectedProfiles.includes(profile.id)}
-                        onCheckedChange={() => toggleProfile(profile.id)}
-                      >
-                        {profile.name}
-                        {profile.isDefault && (
-                          <span className='ml-2 text-xs text-muted-foreground'>
-                            (Default)
-                          </span>
-                        )}
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              {/* Device filter */}
-              <div>
-                <h3 className='text-sm font-medium mb-2 flex items-center'>
-                  <Laptop className='h-4 w-4 mr-2 text-muted-foreground' />
-                  Devices
-                </h3>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant='outline'
-                      className='w-full justify-between'
-                    >
-                      <span className='truncate'>
-                        {selectedDevices.length === 0
-                          ? "All Devices"
-                          : selectedDevices.length === 1
-                          ? devices.find((d) => d.id === selectedDevices[0])
-                              ?.name || "1 Device"
-                          : `${selectedDevices.length} Devices`}
-                      </span>
-                      <ChevronDown className='h-4 w-4 ml-2 opacity-50' />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className='w-56'>
-                    <DropdownMenuLabel>Filter by Device</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {filteredDevices.map((device) => (
-                      <DropdownMenuCheckboxItem
-                        key={device.id}
-                        checked={selectedDevices.includes(device.id)}
-                        onCheckedChange={() => toggleDevice(device.id)}
-                      >
-                        {device.name}
-                        <span className='ml-2 text-xs text-muted-foreground'>
-                          (
-                          {
-                            profiles.find((p) => p.id === device.profileId)
-                              ?.name
-                          }
-                          )
-                        </span>
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              {/* Read status filter */}
-              <div>
-                <h3 className='text-sm font-medium mb-2 flex items-center'>
-                  <Bell className='h-4 w-4 mr-2 text-muted-foreground' />
-                  Status
-                </h3>
-                <div className='flex gap-2'>
-                  <Button
-                    variant={readFilter === "all" ? "default" : "outline"}
-                    size='sm'
-                    className='flex-1'
-                    onClick={() => setReadFilter("all")}
-                  >
-                    All
-                  </Button>
-                  <Button
-                    variant={readFilter === "unread" ? "default" : "outline"}
-                    size='sm'
-                    className='flex-1'
-                    onClick={() => setReadFilter("unread")}
-                  >
-                    Unread
-                  </Button>
-                  <Button
-                    variant={readFilter === "read" ? "default" : "outline"}
-                    size='sm'
-                    className='flex-1'
-                    onClick={() => setReadFilter("read")}
-                  >
-                    Read
-                  </Button>
-                </div>
-              </div>
+              {hasActiveFilters && (
+                <Button
+                  variant='ghost'
+                  size='sm'
+                  onClick={resetFilters}
+                  className='text-xs'
+                >
+                  Reset
+                </Button>
+              )}
             </div>
           </div>
-        )}
-      </div>
 
-      <Tabs defaultValue='all' className='w-full' onValueChange={setActiveTab}>
-        <div className='mb-6 space-y-4'>
-          {/* Tabs and Controls Container */}
-          <div className='bg-white dark:bg-gray-800 rounded-lg border shadow-sm p-2'>
-            <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
-              {/* Tabs with improved styling */}
-              <div className='w-full md:w-auto overflow-x-auto pb-1 md:pb-0'>
-                <TabsList className='h-auto flex-wrap max-sm:items-start p-1 bg-muted/60'>
-                  <TabsTrigger value='all' className='h-9 px-4 rounded-md'>
-                    <span className='flex items-center gap-1.5'>
-                      <Bell className='h-4 w-4' />
-                      <span>All</span>
-                      {notifications.length > 0 && (
-                        <Badge
-                          variant='secondary'
-                          className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
-                        >
-                          {notifications.length}
-                        </Badge>
-                      )}
-                    </span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value='keyword found'
-                    className='h-9 px-4 rounded-md'
-                  >
-                    <span className='flex items-center gap-1.5'>
-                      <Check className='h-4 w-4' />
-                      <span>Found</span>
-                      {notifications.filter(
-                        (n) => n.eventType.toLowerCase() === "keyword found"
-                      ).length > 0 && (
-                        <Badge
-                          variant='secondary'
-                          className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
-                        >
-                          {
-                            notifications.filter(
-                              (n) =>
-                                n.eventType.toLowerCase() === "keyword found"
-                            ).length
-                          }
-                        </Badge>
-                      )}
-                    </span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value='keyword lost'
-                    className='h-9 px-4 rounded-md'
-                  >
-                    <span className='flex items-center gap-1.5'>
-                      <X className='h-4 w-4' />
-                      <span>Lost</span>
-                      {notifications.filter(
-                        (n) => n.eventType.toLowerCase() === "keyword lost"
-                      ).length > 0 && (
-                        <Badge
-                          variant='secondary'
-                          className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
-                        >
-                          {
-                            notifications.filter(
-                              (n) =>
-                                n.eventType.toLowerCase() === "keyword lost"
-                            ).length
-                          }
-                        </Badge>
-                      )}
-                    </span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value='page change detected'
-                    className='h-9 px-4 rounded-md'
-                  >
-                    <span className='flex items-center gap-1.5'>
-                      <RefreshCw className='h-4 w-4' />
-                      <span>Changes</span>
-                      {notifications.filter(
-                        (n) =>
-                          n.eventType.toLowerCase() === "page change detected"
-                      ).length > 0 && (
-                        <Badge
-                          variant='secondary'
-                          className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
-                        >
-                          {
-                            notifications.filter(
-                              (n) =>
-                                n.eventType.toLowerCase() ===
-                                "page change detected"
-                            ).length
-                          }
-                        </Badge>
-                      )}
-                    </span>
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-
-              {/* Controls with improved styling */}
-              <div className='flex flex-wrap gap-2 w-full md:w-auto justify-end'>
-                {/* Sound and Refresh Controls */}
-                {/* Sound and Refresh Controls - Redesigned */}
-                <div className='flex items-center gap-2 bg-gradient-to-r from-muted/50 to-muted/30 p-1.5 rounded-md border border-muted/50 shadow-sm'>
-                  <div className='flex items-center'>
-                    <Dialog
-                      open={soundSettingsDialogOpen}
-                      onOpenChange={setSoundSettingsDialogOpen}
-                    >
-                      <DialogTrigger asChild>
-                        <Button
-                          variant='ghost'
-                          size='icon'
-                          title={
-                            soundEnabled
-                              ? "Sound settings (enabled)"
-                              : "Sound settings (disabled)"
-                          }
-                          className={cn(
-                            "h-8 w-8 rounded-md transition-colors",
-                            soundEnabled
-                              ? "text-primary hover:text-primary/80"
-                              : "text-muted-foreground hover:text-foreground"
-                          )}
-                        >
-                          {soundEnabled ? (
-                            <Volume2 className='h-4 w-4' />
-                          ) : (
-                            <VolumeX className='h-4 w-4' />
-                          )}
-                          <span className='sr-only'>Sound settings</span>
-                        </Button>
-                      </DialogTrigger>
-                      <SoundSettingsDialog
-                        soundEnabled={soundEnabled}
-                        setSoundEnabled={setSoundEnabled}
-                        selectedSound={selectedSound}
-                        setSelectedSound={setSelectedSound}
-                        volume={volume}
-                        setVolume={setVolume}
-                        customSoundUrl={customSoundUrl}
-                        setCustomSoundUrl={setCustomSoundUrl}
-                      />
-                    </Dialog>
-                  </div>
-
-                  <div className='h-8 w-px bg-muted mx-0.5'></div>
-
-                  <div className='flex items-center'>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className='flex items-center gap-1 px-2 py-1 rounded-md hover:bg-muted/50 transition-colors cursor-default'>
-                            <Clock className='h-3.5 w-3.5 text-muted-foreground' />
-                            <div className='flex items-center gap-2'>
-                              <div className='relative'>
-                                <select
-                                  value={refreshInterval}
-                                  onChange={(e) =>
-                                    handleRefreshIntervalChange(e.target.value)
-                                  }
-                                  className='bg-transparent text-xs outline-none appearance-none pr-5 py-0 h-4 cursor-pointer'
-                                  aria-label='Refresh interval'
-                                >
-                                  <option value='10'>10s</option>
-                                  <option value='30'>30s</option>
-                                  <option value='60'>1m</option>
-                                  <option value='300'>5m</option>
-                                </select>
-                                <ChevronDown className='h-3 w-3 text-muted-foreground absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none' />
-                              </div>
-                              <div
-                                className={cn(
-                                  "text-[10px] px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap",
-                                  isRefreshing
-                                    ? "bg-primary/15 text-primary animate-pulse"
-                                    : "bg-muted text-muted-foreground"
-                                )}
-                              >
-                                {Math.floor(countdown / 60) > 0
-                                  ? `${Math.floor(countdown / 60)}m `
-                                  : ""}
-                                {countdown % 60}s
-                              </div>
-                            </div>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent side='bottom'>
-                          <p>Auto-refresh interval</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant='ghost'
-                            size='icon'
-                            onClick={handleManualRefresh}
-                            disabled={isRefreshing}
-                            className={cn(
-                              "h-8 w-8 rounded-md transition-all",
-                              isRefreshing && "bg-muted/60"
-                            )}
-                          >
-                            <RefreshCw
-                              className={cn(
-                                "h-4 w-4",
-                                isRefreshing && "animate-spin text-primary"
-                              )}
-                            />
-                            <span className='sr-only'>Refresh now</span>
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side='bottom'>
-                          <p>Refresh now</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className='flex items-center gap-2 bg-muted/40 p-1 rounded-md'>
+          {showFilters && (
+            <div className='bg-muted/40 p-4 rounded-md mb-4 border'>
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                {/* Profile filter */}
+                <div>
+                  <h3 className='text-sm font-medium mb-2 flex items-center'>
+                    <Settings className='h-4 w-4 mr-2 text-muted-foreground' />
+                    Settings Profiles
+                  </h3>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
-                        variant='ghost'
-                        size='sm'
-                        className='h-8 rounded-md'
+                        variant='outline'
+                        className='w-full justify-between'
                       >
-                        <SlidersHorizontal className='h-4 w-4 mr-1.5' />
-                        Actions
+                        <span className='truncate'>
+                          {selectedProfiles.length === 0
+                            ? "All Profiles"
+                            : selectedProfiles.length === 1
+                            ? profiles.find((p) => p.id === selectedProfiles[0])
+                                ?.name || "1 Profile"
+                            : `${selectedProfiles.length} Profiles`}
+                        </span>
+                        <ChevronDown className='h-4 w-4 ml-2 opacity-50' />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align='end'>
-                      <DropdownMenuLabel>
-                        Notification Actions
-                      </DropdownMenuLabel>
+                    <DropdownMenuContent className='md:w-56 '>
+                      <DropdownMenuLabel>Filter by Profile</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-
-                      {/* Mark All Read option */}
-                      {unreadCount > 0 ? (
-                        <DropdownMenuItem
-                          onClick={handleMarkAllAsRead}
-                          disabled={isRefreshing || unreadCount === 0}
+                      {profiles.map((profile) => (
+                        <DropdownMenuCheckboxItem
+                          key={profile.id}
+                          checked={selectedProfiles.includes(profile.id)}
+                          onCheckedChange={() => toggleProfile(profile.id)}
                         >
-                          <CheckCircle2 className='h-4 w-4 mr-2' />
-                          Mark All as Read
-                          <span className='ml-1 text-xs text-muted-foreground'>
-                            ({unreadCount})
-                          </span>
-                        </DropdownMenuItem>
-                      ) : (
-                        <DropdownMenuItem disabled>
-                          <CheckCircle2 className='h-4 w-4 mr-2' />
-                          Mark All as Read
-                        </DropdownMenuItem>
-                      )}
-
-                      {/* Clear All option */}
-                      <DropdownMenuItem
-                        onClick={clearAllNotifications}
-                        disabled={notifications.length === 0}
-                      >
-                        <Trash2 className='h-4 w-4 mr-2' />
-                        Clear All Notifications
-                      </DropdownMenuItem>
-
-                      <DropdownMenuSeparator />
-                      <DropdownMenuLabel>Export Options</DropdownMenuLabel>
-
-                      {/* Advanced Export */}
-                      <Dialog
-                        open={exportDialogOpen}
-                        onOpenChange={setExportDialogOpen}
-                      >
-                        <DialogTrigger asChild>
-                          <DropdownMenuItem
-                            onSelect={(e) => e.preventDefault()}
-                          >
-                            <FileSpreadsheet className='h-4 w-4 mr-2' />
-                            Advanced Export
-                          </DropdownMenuItem>
-                        </DialogTrigger>
-                        <ExportDialog
-                          notifications={notifications}
-                          selectedProfiles={selectedProfiles}
-                          selectedDevices={selectedDevices}
-                          readFilter={readFilter}
-                          activeTab={activeTab}
-                          searchQuery={searchQuery}
-                          profiles={profiles}
-                          devices={devices}
-                        />
-                      </Dialog>
-
-                      {/* Quick Export Sub-menu */}
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          <FileSpreadsheet className='h-4 w-4 mr-2' />
-                          Quick Export
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                          <DropdownMenuSubContent>
-                            <DropdownMenuItem
-                              onClick={() => {
-                                // Quick export as CSV
-                                const headers = [
-                                  "url",
-                                  "keyword",
-                                  "eventType",
-                                  "type",
-                                  "deviceName",
-                                  "profileName",
-                                  "timestamp",
-                                  "read",
-                                ].join(",");
-                                const rows = filteredNotifications.map((item) =>
-                                  [
-                                    item.url,
-                                    item.keyword,
-                                    item.eventType,
-                                    item.type,
-                                    item.deviceName,
-                                    item.profileName,
-                                    item.timestamp,
-                                    item.read,
-                                  ].join(",")
-                                );
-                                const csv = [headers, ...rows].join("\n");
-
-                                const blob = new Blob([csv], {
-                                  type: "text/csv",
-                                });
-                                const url = URL.createObjectURL(blob);
-                                const link = document.createElement("a");
-                                link.href = url;
-                                link.download = `notifications-export-${
-                                  new Date().toISOString().split("T")[0]
-                                }.csv`;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                URL.revokeObjectURL(url);
-                              }}
-                            >
-                              <FileSpreadsheet className='h-4 w-4 mr-2' />
-                              Export as CSV
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => {
-                                // Quick export as JSON
-                                const json = JSON.stringify(
-                                  filteredNotifications,
-                                  null,
-                                  2
-                                );
-                                const blob = new Blob([json], {
-                                  type: "application/json",
-                                });
-                                const url = URL.createObjectURL(blob);
-                                const link = document.createElement("a");
-                                link.href = url;
-                                link.download = `notifications-export-${
-                                  new Date().toISOString().split("T")[0]
-                                }.json`;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                URL.revokeObjectURL(url);
-                              }}
-                            >
-                              <FileJson className='h-4 w-4 mr-2' />
-                              Export as JSON
-                            </DropdownMenuItem>
-                          </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                      </DropdownMenuSub>
+                          {profile.name}
+                          {profile.isDefault && (
+                            <span className='ml-2 text-xs text-muted-foreground'>
+                              (Default)
+                            </span>
+                          )}
+                        </DropdownMenuCheckboxItem>
+                      ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
+                </div>
+
+                {/* Device filter */}
+                <div>
+                  <h3 className='text-sm font-medium mb-2 flex items-center'>
+                    <Laptop className='h-4 w-4 mr-2 text-muted-foreground' />
+                    Devices
+                  </h3>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant='outline'
+                        className='w-full justify-between'
+                      >
+                        <span className='truncate'>
+                          {selectedDevices.length === 0
+                            ? "All Devices"
+                            : selectedDevices.length === 1
+                            ? devices.find((d) => d.id === selectedDevices[0])
+                                ?.name || "1 Device"
+                            : `${selectedDevices.length} Devices`}
+                        </span>
+                        <ChevronDown className='h-4 w-4 ml-2 opacity-50' />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className='w-56'>
+                      <DropdownMenuLabel>Filter by Device</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {filteredDevices.map((device) => (
+                        <DropdownMenuCheckboxItem
+                          key={device.id}
+                          checked={selectedDevices.includes(device.id)}
+                          onCheckedChange={() => toggleDevice(device.id)}
+                        >
+                          {device.name}
+                          <span className='ml-2 text-xs text-muted-foreground'>
+                            (
+                            {
+                              profiles.find((p) => p.id === device.profileId)
+                                ?.name
+                            }
+                            )
+                          </span>
+                        </DropdownMenuCheckboxItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* Read status filter */}
+                <div>
+                  <h3 className='text-sm font-medium mb-2 flex items-center'>
+                    <Bell className='h-4 w-4 mr-2 text-muted-foreground' />
+                    Status
+                  </h3>
+                  <div className='flex gap-2'>
+                    <Button
+                      variant={readFilter === "all" ? "default" : "outline"}
+                      size='sm'
+                      className='flex-1'
+                      onClick={() => setReadFilter("all")}
+                    >
+                      All
+                    </Button>
+                    <Button
+                      variant={readFilter === "unread" ? "default" : "outline"}
+                      size='sm'
+                      className='flex-1'
+                      onClick={() => setReadFilter("unread")}
+                    >
+                      Unread
+                    </Button>
+                    <Button
+                      variant={readFilter === "read" ? "default" : "outline"}
+                      size='sm'
+                      className='flex-1'
+                      onClick={() => setReadFilter("read")}
+                    >
+                      Read
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <Tabs
+          defaultValue='all'
+          className='w-full'
+          onValueChange={setActiveTab}
+        >
+          <div className='mb-6 space-y-4'>
+            {/* Tabs and Controls Container */}
+            <div className='bg-transparent dark:bg-gray-800 rounded-lg border  p-2'>
+              <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
+                {/* Tabs with improved styling */}
+                <div className='w-full md:w-auto overflow-x-auto pb-1 md:pb-0'>
+                  <TabsList className='h-auto flex-wrap max-sm:items-start p-1 bg-muted/60'>
+                    <TabsTrigger value='all' className='h-9 px-4 rounded-md'>
+                      <span className='flex items-center gap-1.5'>
+                        <Bell className='h-4 w-4' />
+                        <span>All</span>
+                        {notifications.length > 0 && (
+                          <Badge
+                            variant='secondary'
+                            className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
+                          >
+                            {notifications.length}
+                          </Badge>
+                        )}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value='keyword found'
+                      className='h-9 px-4 rounded-md'
+                    >
+                      <span className='flex items-center gap-1.5'>
+                        <Check className='h-4 w-4' />
+                        <span>Found</span>
+                        {notifications.filter(
+                          (n) => n.eventType.toLowerCase() === "keyword found"
+                        ).length > 0 && (
+                          <Badge
+                            variant='secondary'
+                            className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
+                          >
+                            {
+                              notifications.filter(
+                                (n) =>
+                                  n.eventType.toLowerCase() === "keyword found"
+                              ).length
+                            }
+                          </Badge>
+                        )}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value='keyword lost'
+                      className='h-9 px-4 rounded-md'
+                    >
+                      <span className='flex items-center gap-1.5'>
+                        <X className='h-4 w-4' />
+                        <span>Lost</span>
+                        {notifications.filter(
+                          (n) => n.eventType.toLowerCase() === "keyword lost"
+                        ).length > 0 && (
+                          <Badge
+                            variant='secondary'
+                            className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
+                          >
+                            {
+                              notifications.filter(
+                                (n) =>
+                                  n.eventType.toLowerCase() === "keyword lost"
+                              ).length
+                            }
+                          </Badge>
+                        )}
+                      </span>
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value='page change detected'
+                      className='h-9 px-4 rounded-md'
+                    >
+                      <span className='flex items-center gap-1.5'>
+                        <RefreshCw className='h-4 w-4' />
+                        <span>Changes</span>
+                        {notifications.filter(
+                          (n) =>
+                            n.eventType.toLowerCase() === "page change detected"
+                        ).length > 0 && (
+                          <Badge
+                            variant='secondary'
+                            className='ml-1 h-5 px-1.5 min-w-[20px] flex items-center justify-center'
+                          >
+                            {
+                              notifications.filter(
+                                (n) =>
+                                  n.eventType.toLowerCase() ===
+                                  "page change detected"
+                              ).length
+                            }
+                          </Badge>
+                        )}
+                      </span>
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+
+                {/* Controls with improved styling */}
+                <div className='flex flex-wrap gap-2 w-full md:w-auto justify-end'>
+                  {/* Sound and Refresh Controls */}
+                  {/* Sound and Refresh Controls - Redesigned */}
+                  <div className='flex items-center gap-2 bg-gradient-to-r from-muted/50 to-muted/30 p-1.5 rounded-md border border-muted/50 shadow-sm'>
+                    <div className='flex items-center'>
+                      <Dialog
+                        open={soundSettingsDialogOpen}
+                        onOpenChange={setSoundSettingsDialogOpen}
+                      >
+                        <DialogTrigger asChild>
+                          <Button
+                            variant='ghost'
+                            size='icon'
+                            title={
+                              soundEnabled
+                                ? "Sound settings (enabled)"
+                                : "Sound settings (disabled)"
+                            }
+                            className={cn(
+                              "h-8 w-8 rounded-md transition-colors",
+                              soundEnabled
+                                ? "text-primary hover:text-primary/80"
+                                : "text-muted-foreground hover:text-foreground"
+                            )}
+                          >
+                            {soundEnabled ? (
+                              <Volume2 className='h-4 w-4' />
+                            ) : (
+                              <VolumeX className='h-4 w-4' />
+                            )}
+                            <span className='sr-only'>Sound settings</span>
+                          </Button>
+                        </DialogTrigger>
+                        <SoundSettingsDialog
+                          soundEnabled={soundEnabled}
+                          setSoundEnabled={setSoundEnabled}
+                          selectedSound={selectedSound}
+                          setSelectedSound={setSelectedSound}
+                          volume={volume}
+                          setVolume={setVolume}
+                          customSoundUrl={customSoundUrl}
+                          setCustomSoundUrl={setCustomSoundUrl}
+                        />
+                      </Dialog>
+                    </div>
+
+                    <div className='h-8 w-px bg-muted mx-0.5'></div>
+
+                    <div className='flex items-center'>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className='flex items-center gap-1 -pr-1 py-1 rounded-md hover:bg-muted/50 transition-colors cursor-default'>
+                              <Clock className='h-3.5 w-3.5 text-muted-foreground' />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side='bottom'>
+                            <p>Auto-refresh interval</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        <div className='flex items-center gap-2'>
+                          <div className='relative'>
+                            <Select>
+                              <SelectTrigger
+                                className='bg-transparent text-xs outline-none appearance-none pr-5 py-0 h-4 border-none cursor-pointer'
+                                aria-label='Refresh interval'
+                                value={refreshInterval}
+                                onChange={(e) =>
+                                  handleRefreshIntervalChange(
+                                    (e.target as HTMLSelectElement).value
+                                  )
+                                }
+                              >
+                                <SelectValue placeholder='30s' />
+                              </SelectTrigger>
+                              <SelectContent className='mt-2 -ml-4 '>
+                                <SelectItem value='10'>10s</SelectItem>
+                                <SelectItem value='20'>20s</SelectItem>
+                                <SelectItem value='30'>30s</SelectItem>
+                                <SelectItem value='60'>1m</SelectItem>
+                                <SelectItem value='300'>5m</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div
+                            className={cn(
+                              "text-[10px] px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap",
+                              isRefreshing
+                                ? "bg-primary/15 text-primary animate-pulse"
+                                : "bg-muted text-muted-foreground"
+                            )}
+                          >
+                            {Math.floor(countdown / 60) > 0
+                              ? `${Math.floor(countdown / 60)}m `
+                              : ""}
+                            {countdown % 60}s
+                          </div>
+                        </div>
+                      </TooltipProvider>
+
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              onClick={handleManualRefresh}
+                              disabled={isRefreshing}
+                              className={cn(
+                                "h-8 w-8 rounded-md transition-all",
+                                isRefreshing && "bg-muted/60"
+                              )}
+                            >
+                              <RefreshCw
+                                className={cn(
+                                  "h-4 w-4",
+                                  isRefreshing && "animate-spin text-primary"
+                                )}
+                              />
+                              <span className='sr-only'>Refresh now</span>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side='bottom'>
+                            <p>Refresh now</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className='flex items-center gap-2 bg-muted/40 p-1 rounded-md'>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant='ghost'
+                          size='sm'
+                          className='h-8 rounded-md'
+                        >
+                          <SlidersHorizontal className='h-4 w-4 mr-1.5' />
+                          Actions
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align='end'>
+                        <DropdownMenuLabel>
+                          Notification Actions
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        {/* Mark All Read option */}
+                        {unreadCount > 0 ? (
+                          <DropdownMenuItem
+                            onClick={handleMarkAllAsRead}
+                            disabled={isRefreshing || unreadCount === 0}
+                          >
+                            <CheckCircle2 className='h-4 w-4 mr-2' />
+                            Mark All as Read
+                            <span className='ml-1 text-xs text-muted-foreground'>
+                              ({unreadCount})
+                            </span>
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem disabled>
+                            <CheckCircle2 className='h-4 w-4 mr-2' />
+                            Mark All as Read
+                          </DropdownMenuItem>
+                        )}
+
+                        {/* Clear All option */}
+                        <DropdownMenuItem
+                          onClick={clearAllNotifications}
+                          disabled={notifications.length === 0}
+                        >
+                          <Trash2 className='h-4 w-4 mr-2' />
+                          Clear All Notifications
+                        </DropdownMenuItem>
+
+                        <DropdownMenuSeparator />
+                        <DropdownMenuLabel>Export Options</DropdownMenuLabel>
+
+                        {/* Advanced Export */}
+                        <Dialog
+                          open={exportDialogOpen}
+                          onOpenChange={setExportDialogOpen}
+                        >
+                          <DialogTrigger asChild>
+                            <DropdownMenuItem
+                              onSelect={(e) => e.preventDefault()}
+                            >
+                              <FileSpreadsheet className='h-4 w-4 mr-2' />
+                              Advanced Export
+                            </DropdownMenuItem>
+                          </DialogTrigger>
+                          <ExportDialog
+                            notifications={notifications}
+                            selectedProfiles={selectedProfiles}
+                            selectedDevices={selectedDevices}
+                            readFilter={readFilter}
+                            activeTab={activeTab}
+                            searchQuery={searchQuery}
+                            profiles={profiles}
+                            devices={devices}
+                          />
+                        </Dialog>
+
+                        {/* Quick Export Sub-menu */}
+                        <DropdownMenuSub>
+                          <DropdownMenuSubTrigger>
+                            <FileSpreadsheet className='h-4 w-4 mr-2' />
+                            Quick Export
+                          </DropdownMenuSubTrigger>
+                          <DropdownMenuPortal>
+                            <DropdownMenuSubContent>
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  // Quick export as CSV
+                                  const headers = [
+                                    "url",
+                                    "keyword",
+                                    "eventType",
+                                    "type",
+                                    "deviceName",
+                                    "profileName",
+                                    "timestamp",
+                                    "read",
+                                  ].join(",");
+                                  const rows = filteredNotifications.map(
+                                    (item) =>
+                                      [
+                                        item.url,
+                                        item.keyword,
+                                        item.eventType,
+                                        item.type,
+                                        item.deviceName,
+                                        item.profileName,
+                                        item.timestamp,
+                                        item.read,
+                                      ].join(",")
+                                  );
+                                  const csv = [headers, ...rows].join("\n");
+
+                                  const blob = new Blob([csv], {
+                                    type: "text/csv",
+                                  });
+                                  const url = URL.createObjectURL(blob);
+                                  const link = document.createElement("a");
+                                  link.href = url;
+                                  link.download = `notifications-export-${
+                                    new Date().toISOString().split("T")[0]
+                                  }.csv`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                  URL.revokeObjectURL(url);
+                                }}
+                              >
+                                <FileSpreadsheet className='h-4 w-4 mr-2' />
+                                Export as CSV
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  // Quick export as JSON
+                                  const json = JSON.stringify(
+                                    filteredNotifications,
+                                    null,
+                                    2
+                                  );
+                                  const blob = new Blob([json], {
+                                    type: "application/json",
+                                  });
+                                  const url = URL.createObjectURL(blob);
+                                  const link = document.createElement("a");
+                                  link.href = url;
+                                  link.download = `notifications-export-${
+                                    new Date().toISOString().split("T")[0]
+                                  }.json`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                  URL.revokeObjectURL(url);
+                                }}
+                              >
+                                <FileJson className='h-4 w-4 mr-2' />
+                                Export as JSON
+                              </DropdownMenuItem>
+                            </DropdownMenuSubContent>
+                          </DropdownMenuPortal>
+                        </DropdownMenuSub>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <TabsContent value={activeTab} className='mt-0'>
-          {filteredNotifications.length > 0 ? (
-            <div className='sm:max-w-3xl  max-sm:max-w-[20rem] ml-0 md:pl-4 '>
-              <div className='relative'>
-                {/* Timeline line */}
-                <div className='absolute left-6 md:left-[9.5rem] top-0 bottom-0 w-[2px] bg-gray-200 dark:bg-gray-800'></div>
+          <TabsContent value={activeTab} className='mt-0'>
+            {filteredNotifications.length > 0 ? (
+              <div className='sm:max-w-3xl  max-sm:max-w-[20rem] ml-0 md:pl-4 '>
+                <div className='relative'>
+                  {/* Timeline line */}
+                  <div className='absolute left-6 md:left-[9.5rem] top-0 bottom-0 w-[2px] bg-gray-200 dark:bg-gray-800'></div>
 
-                <div className='space-y-6'>
-                  {filteredNotifications.map((notification, index) => {
-                    const eventColor = getEventTypeColor(
-                      notification.eventType
-                    );
-                    const isNew = notification.isNew;
-                    const isRead = notification.read;
-                    const isMarking = markingAsRead === notification.id;
+                  <div className='space-y-6'>
+                    {filteredNotifications.map((notification, index) => {
+                      const eventColor = getEventTypeColor(
+                        notification.eventType
+                      );
+                      const isNew = notification.isNew;
+                      const isRead = notification.read;
+                      const isMarking = markingAsRead === notification.id;
 
-                    return (
-                      <div
-                        key={notification.id}
-                        className={cn(
-                          "relative transition-all duration-500",
-                          isNew && !isRead && "animate-fadeIn"
-                        )}
-                      >
-                        {/* Desktop timestamp */}
-                        <div className='hidden md:block absolute left-0 top-6'>
-                          <div
-                            className={cn(
-                              "flex items-center justify-between min-w-[8rem] px-3 py-1.5 rounded-md bg-gradient-to-r border border-gray-200 dark:border-gray-700 transition-all duration-300",
-                              isRead
-                                ? "from-gray-50 to-gray-100 dark:from-gray-800/60 dark:to-gray-800/40 border-l-gray-300 dark:border-l-gray-600 border-l-4"
-                                : isNew
-                                ? "from-yellow-50 to-yellow-100/70 dark:from-yellow-900/20 dark:to-yellow-900/10 border-l-yellow-400 dark:border-l-yellow-600 border-l-4"
-                                : "from-emerald-50 to-emerald-100/70 dark:from-emerald-900/20 dark:to-emerald-900/10 border-l-primary border-l-4"
-                            )}
-                          >
-                            <div className='flex items-center'>
-                              <Clock
-                                className={cn(
-                                  "h-4 w-4",
-                                  isRead
-                                    ? "text-gray-400 dark:text-gray-500"
-                                    : isNew
-                                    ? "text-yellow-500 dark:text-yellow-400"
-                                    : "text-primary"
-                                )}
-                              />
-                            </div>
-                            <span
+                      return (
+                        <div
+                          key={notification.id}
+                          className={cn(
+                            "relative transition-all duration-500",
+                            isNew && !isRead && "animate-fadeIn"
+                          )}
+                        >
+                          {/* Desktop timestamp */}
+                          <div className='hidden md:block absolute left-0 top-6'>
+                            <div
                               className={cn(
-                                "text-sm font-medium ml-2",
+                                "flex items-center justify-between min-w-[8rem] px-3 py-1.5 rounded-md bg-gradient-to-r border border-gray-200 dark:border-gray-700 transition-all duration-300",
                                 isRead
-                                  ? "text-gray-500 dark:text-gray-400"
+                                  ? "from-gray-50 to-gray-100 dark:from-gray-800/60 dark:to-gray-800/40 border-l-gray-300 dark:border-l-gray-600 border-l-4"
                                   : isNew
-                                  ? "text-yellow-700 dark:text-yellow-400"
-                                  : "text-gray-700 dark:text-gray-200"
+                                  ? "from-yellow-50 to-yellow-100/70 dark:from-yellow-900/20 dark:to-yellow-900/10 border-l-yellow-400 dark:border-l-yellow-600 border-l-4"
+                                  : "from-emerald-50 to-emerald-100/70 dark:from-emerald-900/20 dark:to-emerald-900/10 border-l-primary border-l-4"
                               )}
                             >
-                              {notification.timestamp}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Timeline dot */}
-                        <div
-                          className={cn(
-                            "absolute left-6 md:left-[9.5rem] top-6 w-[14px] h-[14px] rounded-full border-[3px] z-10 -ml-[7px] md:-ml-[7px] transition-all duration-300",
-                            isRead
-                              ? "border-gray-200 dark:border-gray-700 opacity-70"
-                              : isNew
-                              ? "border-yellow-200 dark:border-yellow-900 animate-pulse"
-                              : "border-white dark:border-gray-900"
-                          )}
-                          style={{
-                            backgroundColor: isRead ? "#9ca3af" : eventColor,
-                          }}
-                        ></div>
-
-                        {/* Card content */}
-                        <div className='ml-12 md:ml-[11rem]'>
-                          <Card
-                            className={cn(
-                              "overflow-hidden transition-all duration-300 cursor-pointer",
-                              isMarking && "opacity-80",
-                              isRead
-                                ? "shadow-sm border-gray-200 dark:border-gray-800"
-                                : isNew
-                                ? "shadow-md border-yellow-200 dark:border-yellow-900/30"
-                                : "shadow-md border-emerald-200 dark:border-emerald-900/30 hover:border-primary/50 dark:hover:border-primary/50"
-                            )}
-                            onClick={(e) =>
-                              handleNotificationClick(e, notification)
-                            }
-                          >
-                            <CardContent className='p-0'>
-                              <div
+                              <div className='flex items-center'>
+                                <Clock
+                                  className={cn(
+                                    "h-4 w-4",
+                                    isRead
+                                      ? "text-gray-400 dark:text-gray-500"
+                                      : isNew
+                                      ? "text-yellow-500 dark:text-yellow-400"
+                                      : "text-primary"
+                                  )}
+                                />
+                              </div>
+                              <span
                                 className={cn(
-                                  "p-5 flex gap-4 relative",
+                                  "text-sm font-medium ml-2",
                                   isRead
-                                    ? "bg-gray-50/50 dark:bg-gray-800/20"
+                                    ? "text-gray-500 dark:text-gray-400"
                                     : isNew
-                                    ? "bg-yellow-50/50 dark:bg-yellow-900/5"
-                                    : "bg-emerald-50/30 dark:bg-emerald-900/5"
+                                    ? "text-yellow-700 dark:text-yellow-400"
+                                    : "text-gray-700 dark:text-gray-200"
                                 )}
                               >
-                                {/* Read indicator */}
-                                {!isRead && (
-                                  <div className='absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-primary animate-pulse' />
-                                )}
-                                {/* Loading indicator when marking as read */}
-                                {isMarking && (
-                                  <div className='absolute inset-0 bg-white/30 dark:bg-black/20 flex items-center justify-center z-10'>
-                                    <div className='h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin'></div>
-                                  </div>
-                                )}
-                                {/* Notification icon */}
-                                <div className='flex-shrink-0 mt-1'>
-                                  <div
-                                    className={cn(
-                                      "w-8 h-8 rounded-full flex items-center justify-center transition-all",
-                                      isRead
-                                        ? "opacity-70"
-                                        : isNew && "animate-pulse"
-                                    )}
-                                    style={{
-                                      backgroundColor: isRead
-                                        ? "#9ca3af20"
-                                        : `${eventColor}20`,
-                                    }}
-                                  >
-                                    {notification.eventType.toLowerCase() ===
-                                      "keyword found" && (
-                                      <Check
-                                        className='h-4 w-4'
-                                        style={{
-                                          color: isRead
-                                            ? "#9ca3af"
-                                            : eventColor,
-                                        }}
-                                      />
-                                    )}
-                                    {notification.eventType.toLowerCase() ===
-                                      "keyword lost" && (
-                                      <X
-                                        className='h-4 w-4'
-                                        style={{
-                                          color: isRead
-                                            ? "#9ca3af"
-                                            : eventColor,
-                                        }}
-                                      />
-                                    )}
-                                    {notification.eventType.toLowerCase() ===
-                                      "page change detected" && (
-                                      <RefreshCw
-                                        className='h-4 w-4'
-                                        style={{
-                                          color: isRead
-                                            ? "#9ca3af"
-                                            : eventColor,
-                                        }}
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                                {/* Content */}
-                                <div className='flex-1 min-w-0'>
-                                  {/* Mobile timestamp */}
-                                  <div
-                                    className={cn(
-                                      "md:hidden flex items-center text-xs mb-2 transition-colors",
-                                      isRead
-                                        ? "text-gray-400"
-                                        : isNew
-                                        ? "text-yellow-600 dark:text-yellow-400"
-                                        : "text-primary"
-                                    )}
-                                  >
-                                    <Clock className='h-3.5 w-3.5 mr-1.5' />
-                                    {notification.timestamp}
-                                    {isNew && !isRead && (
-                                      <span className='ml-1.5 text-[10px] uppercase font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-1.5 py-0.5 rounded-sm'>
-                                        New
-                                      </span>
-                                    )}
-                                    {!isRead && !isNew && (
-                                      <span className='ml-1.5 text-[10px] uppercase font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded-sm'>
-                                        Unread
-                                      </span>
-                                    )}
-                                  </div>
+                                {notification.timestamp}
+                              </span>
+                            </div>
+                          </div>
 
-                                  {/* URL and actions */}
-                                  <div className='flex items-start justify-between mb-3 flex-wrap'>
-                                    <div className='flex items-center space-x-2 max-w-[70%]'>
-                                      <Globe
-                                        className={cn(
-                                          "h-4 w-4 flex-shrink-0",
-                                          isRead
-                                            ? "text-gray-400"
-                                            : "text-muted-foreground"
-                                        )}
-                                      />
-                                      <h3
-                                        className={cn(
-                                          "truncate",
-                                          isRead
-                                            ? "font-normal text-gray-500"
-                                            : "font-medium"
-                                        )}
-                                      >
-                                        {notification.url}
-                                      </h3>
+                          {/* Timeline dot */}
+                          <div
+                            className={cn(
+                              "absolute left-6 md:left-[9.5rem] top-6 w-[14px] h-[14px] rounded-full border-[3px] z-10 -ml-[7px] md:-ml-[7px] transition-all duration-300",
+                              isRead
+                                ? "border-gray-200 dark:border-gray-700 opacity-70"
+                                : isNew
+                                ? "border-yellow-200 dark:border-yellow-900 animate-pulse"
+                                : "border-white dark:border-gray-900"
+                            )}
+                            style={{
+                              backgroundColor: isRead ? "#9ca3af" : eventColor,
+                            }}
+                          ></div>
+
+                          {/* Card content */}
+                          <div className='ml-12 md:ml-[11rem]'>
+                            <Card
+                              className={cn(
+                                "overflow-hidden transition-all duration-300 cursor-pointer",
+                                isMarking && "opacity-80",
+                                isRead
+                                  ? "shadow-sm border-gray-200 dark:border-gray-800"
+                                  : isNew
+                                  ? "shadow-md border-yellow-200 dark:border-yellow-900/30"
+                                  : "shadow-md border-emerald-200 dark:border-emerald-900/30 hover:border-primary/50 dark:hover:border-primary/50"
+                              )}
+                              onClick={(e) =>
+                                handleNotificationClick(e, notification)
+                              }
+                            >
+                              <CardContent className='p-0'>
+                                <div
+                                  className={cn(
+                                    "p-5 flex gap-4 relative",
+                                    isRead
+                                      ? "bg-gray-50/50 dark:bg-gray-800/20"
+                                      : isNew
+                                      ? "bg-yellow-50/50 dark:bg-yellow-900/5"
+                                      : "bg-emerald-50/30 dark:bg-emerald-900/5"
+                                  )}
+                                >
+                                  {/* Read indicator */}
+                                  {!isRead && (
+                                    <div className='absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-primary animate-pulse' />
+                                  )}
+                                  {/* Loading indicator when marking as read */}
+                                  {isMarking && (
+                                    <div className='absolute inset-0 bg-white/30 dark:bg-black/20 flex items-center justify-center z-10'>
+                                      <div className='h-5 w-5 border-2 border-primary border-t-transparent rounded-full animate-spin'></div>
                                     </div>
-                                    <div className='flex items-center space-x-2 flex-shrink-0'>
-                                      <Button
-                                        variant='ghost'
-                                        size='sm'
-                                        className='h-7 px-2 text-xs hover:bg-transparent hover:text-primary'
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          window.open(
-                                            notification.url,
-                                            "_blank"
-                                          );
-                                        }}
-                                      >
-                                        <ExternalLink className='h-3 w-3 mr-1' />
-                                        Open
-                                      </Button>
-                                      <Button
-                                        variant='ghost'
-                                        size='icon'
-                                        className='h-7 w-7'
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          removeNotification(notification.id);
-                                        }}
-                                      >
-                                        <Trash2 className='h-3.5 w-3.5 text-muted-foreground' />
-                                      </Button>
+                                  )}
+                                  {/* Notification icon */}
+                                  <div className='flex-shrink-0 mt-1'>
+                                    <div
+                                      className={cn(
+                                        "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+                                        isRead
+                                          ? "opacity-70"
+                                          : isNew && "animate-pulse"
+                                      )}
+                                      style={{
+                                        backgroundColor: isRead
+                                          ? "#9ca3af20"
+                                          : `${eventColor}20`,
+                                      }}
+                                    >
+                                      {notification.eventType.toLowerCase() ===
+                                        "keyword found" && (
+                                        <Check
+                                          className='h-4 w-4'
+                                          style={{
+                                            color: isRead
+                                              ? "#9ca3af"
+                                              : eventColor,
+                                          }}
+                                        />
+                                      )}
+                                      {notification.eventType.toLowerCase() ===
+                                        "keyword lost" && (
+                                        <X
+                                          className='h-4 w-4'
+                                          style={{
+                                            color: isRead
+                                              ? "#9ca3af"
+                                              : eventColor,
+                                          }}
+                                        />
+                                      )}
+                                      {notification.eventType.toLowerCase() ===
+                                        "page change detected" && (
+                                        <RefreshCw
+                                          className='h-4 w-4'
+                                          style={{
+                                            color: isRead
+                                              ? "#9ca3af"
+                                              : eventColor,
+                                          }}
+                                        />
+                                      )}
                                     </div>
                                   </div>
+                                  {/* Content */}
+                                  <div className='flex-1 min-w-0'>
+                                    {/* Mobile timestamp */}
+                                    <div
+                                      className={cn(
+                                        "md:hidden flex items-center text-xs mb-2 transition-colors",
+                                        isRead
+                                          ? "text-gray-400"
+                                          : isNew
+                                          ? "text-yellow-600 dark:text-yellow-400"
+                                          : "text-primary"
+                                      )}
+                                    >
+                                      <Clock className='h-3.5 w-3.5 mr-1.5' />
+                                      {notification.timestamp}
+                                      {isNew && !isRead && (
+                                        <span className='ml-1.5 text-[10px] uppercase font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-1.5 py-0.5 rounded-sm'>
+                                          New
+                                        </span>
+                                      )}
+                                      {!isRead && !isNew && (
+                                        <span className='ml-1.5 text-[10px] uppercase font-bold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded-sm'>
+                                          Unread
+                                        </span>
+                                      )}
+                                    </div>
 
-                                  {/* Event info and keyword */}
-                                  <div className='mb-3'>
-                                    <div className='flex flex-wrap items-center gap-2 mb-2'>
-                                      <Badge
-                                        variant='outline'
-                                        className={cn(
-                                          "bg-gray-50 dark:bg-gray-800",
-                                          isRead && "opacity-70"
-                                        )}
-                                      >
-                                        {notification.type}
-                                      </Badge>
-                                      <div className='flex items-center'>
-                                        <span
+                                    {/* URL and actions */}
+                                    <div className='flex items-start justify-between mb-3 flex-wrap'>
+                                      <div className='flex items-center space-x-2 max-w-[70%]'>
+                                        <Globe
                                           className={cn(
-                                            "text-xs mr-1.5",
+                                            "h-4 w-4 flex-shrink-0",
                                             isRead
                                               ? "text-gray-400"
                                               : "text-muted-foreground"
                                           )}
-                                        >
-                                          Keyword:
-                                        </span>
-                                        <span
+                                        />
+                                        <h3
                                           className={cn(
-                                            "text-xs font-medium px-2 py-0.5 rounded",
+                                            "truncate",
                                             isRead
-                                              ? "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
-                                              : "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
+                                              ? "font-normal text-gray-500"
+                                              : "font-medium"
                                           )}
                                         >
-                                          {notification.keyword}
+                                          {notification.url}
+                                        </h3>
+                                      </div>
+                                      <div className='flex items-center space-x-2 flex-shrink-0'>
+                                        <Button
+                                          variant='ghost'
+                                          size='sm'
+                                          className='h-7 px-2 text-xs hover:bg-transparent hover:text-primary'
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            window.open(
+                                              notification.url,
+                                              "_blank"
+                                            );
+                                          }}
+                                        >
+                                          <ExternalLink className='h-3 w-3 mr-1' />
+                                          Open
+                                        </Button>
+                                        <Button
+                                          variant='ghost'
+                                          size='icon'
+                                          className='h-7 w-7'
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            removeNotification(notification.id);
+                                          }}
+                                        >
+                                          <Trash2 className='h-3.5 w-3.5 text-muted-foreground' />
+                                        </Button>
+                                      </div>
+                                    </div>
+
+                                    {/* Event info and keyword */}
+                                    <div className='mb-3'>
+                                      <div className='flex flex-wrap items-center gap-2 mb-2'>
+                                        <Badge
+                                          variant='outline'
+                                          className={cn(
+                                            "bg-gray-50 dark:bg-gray-800",
+                                            isRead && "opacity-70"
+                                          )}
+                                        >
+                                          {notification.type}
+                                        </Badge>
+                                        <div className='flex items-center'>
+                                          <span
+                                            className={cn(
+                                              "text-xs mr-1.5",
+                                              isRead
+                                                ? "text-gray-400"
+                                                : "text-muted-foreground"
+                                            )}
+                                          >
+                                            Keyword:
+                                          </span>
+                                          <span
+                                            className={cn(
+                                              "text-xs font-medium px-2 py-0.5 rounded",
+                                              isRead
+                                                ? "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
+                                                : "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
+                                            )}
+                                          >
+                                            {notification.keyword}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* Footer with metadata */}
+                                    <div className='flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground'>
+                                      <div className='flex items-center gap-1.5'>
+                                        <Laptop
+                                          className={cn(
+                                            "h-3.5 w-3.5",
+                                            isRead && "opacity-70"
+                                          )}
+                                        />
+                                        <span
+                                          className={cn(
+                                            "truncate",
+                                            isRead && "text-gray-400"
+                                          )}
+                                        >
+                                          {notification.deviceName}
+                                        </span>
+                                      </div>
+                                      <div className='flex items-center gap-1.5'>
+                                        <Settings
+                                          className={cn(
+                                            "h-3.5 w-3.5",
+                                            isRead && "opacity-70"
+                                          )}
+                                        />
+                                        <span
+                                          className={cn(
+                                            "truncate",
+                                            isRead && "text-gray-400"
+                                          )}
+                                        >
+                                          {notification.profileName}
                                         </span>
                                       </div>
                                     </div>
                                   </div>
-
-                                  {/* Footer with metadata */}
-                                  <div className='flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted-foreground'>
-                                    <div className='flex items-center gap-1.5'>
-                                      <Laptop
-                                        className={cn(
-                                          "h-3.5 w-3.5",
-                                          isRead && "opacity-70"
-                                        )}
-                                      />
-                                      <span
-                                        className={cn(
-                                          "truncate",
-                                          isRead && "text-gray-400"
-                                        )}
-                                      >
-                                        {notification.deviceName}
-                                      </span>
-                                    </div>
-                                    <div className='flex items-center gap-1.5'>
-                                      <Settings
-                                        className={cn(
-                                          "h-3.5 w-3.5",
-                                          isRead && "opacity-70"
-                                        )}
-                                      />
-                                      <span
-                                        className={cn(
-                                          "truncate",
-                                          isRead && "text-gray-400"
-                                        )}
-                                      >
-                                        {notification.profileName}
-                                      </span>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                            </CardContent>
-                          </Card>
+                              </CardContent>
+                            </Card>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className='flex flex-col items-center justify-center py-16 px-4 text-center'>
-              <div className='bg-gray-50 dark:bg-gray-800/50 rounded-full p-4 mb-4'>
-                <Bell className='h-10 w-10 text-muted-foreground' />
+            ) : (
+              <div className='flex flex-col items-center justify-center py-16 px-4 text-center'>
+                <div className='bg-gray-50 dark:bg-gray-800/50 rounded-full p-4 mb-4'>
+                  <Bell className='h-10 w-10 text-muted-foreground' />
+                </div>
+                <h3 className='text-xl font-medium mb-2'>
+                  {hasActiveFilters
+                    ? "No matching notifications"
+                    : "You're all caught up"}
+                </h3>
+                <p className='text-muted-foreground max-w-md'>
+                  {hasActiveFilters
+                    ? "Try adjusting your filters to see more notifications."
+                    : "No recent notification events. When your page monitors detect changes, they'll appear here."}
+                </p>
+                {hasActiveFilters && (
+                  <Button
+                    variant='outline'
+                    className='mt-4'
+                    onClick={resetFilters}
+                  >
+                    Reset Filters
+                  </Button>
+                )}
               </div>
-              <h3 className='text-xl font-medium mb-2'>
-                {hasActiveFilters
-                  ? "No matching notifications"
-                  : "You're all caught up"}
-              </h3>
-              <p className='text-muted-foreground max-w-md'>
-                {hasActiveFilters
-                  ? "Try adjusting your filters to see more notifications."
-                  : "No recent notification events. When your page monitors detect changes, they'll appear here."}
-              </p>
-              {hasActiveFilters && (
-                <Button
-                  variant='outline'
-                  className='mt-4'
-                  onClick={resetFilters}
-                >
-                  Reset Filters
-                </Button>
-              )}
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
-    </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+    </>
   );
 }
