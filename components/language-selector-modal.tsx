@@ -57,26 +57,15 @@ export function LanguageSelectorModal({
   };
 
   const handleApply = () => {
-    // Save the selected language to localStorage
     localStorage.setItem("preferredLanguage", selectedLanguage);
 
-    // Close the modal
     onOpenChange(false);
 
-    // In a real implementation, you might want to:
-    // 1. Update the UI language
-    // 2. Notify the extension
-    // 3. Reload necessary components
-
-    // For demonstration, we'll just show a toast or alert
     alert(
       `Language changed to ${
         languages.find((lang) => lang.code === selectedLanguage)?.name
       }`
     );
-
-    // In a real implementation, you might close the tab with:
-    // window.close()
   };
 
   return (
