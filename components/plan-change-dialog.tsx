@@ -164,7 +164,7 @@ export function PlanChangeDialog({
     selectedPlan &&
     selectedPlan !== null &&
     !isUpgrade(selectedPlan) &&
-    activeDevices > (selectedPlan ? PLANS[selectedPlan].deviceLimit : 0);
+    activeDevices < (selectedPlan ? PLANS[selectedPlan].deviceLimit : 0);
 
   const handleSelectPlan = (plan: PlanType) => {
     if (plan === currentPlan) return;
