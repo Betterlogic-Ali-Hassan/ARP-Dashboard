@@ -424,9 +424,9 @@ export default function SupportPage() {
             {/* Ticket list */}
             <div className='bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-2.5 sm:p-3 md:p-4 mb-3 sm:mb-4 md:mb-6 shadow-sm'>
               <h2 className='text-base sm:text-lg md:text-xl font-semibold mb-2 sm:mb-3 md:mb-4 flex items-center'>
-                <span className='relative'>
+                <span className='flex items-center gap-2'>
                   Your Tickets
-                  <span className='absolute -right-5 sm:-right-6 -top-1 bg-primary text-primary-foreground text-[10px] sm:text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center'>
+                  <span className=' bg-primary text-primary-foreground text-[10px] sm:text-xs rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center'>
                     {filteredTickets.length}
                   </span>
                 </span>
